@@ -12,4 +12,4 @@ class Photo(models.Model):
         return "text : " + self.text
 
     class Meta:
-        order = ['-created']
+        ordering = ['-created']
