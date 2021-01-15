@@ -57,3 +57,11 @@ class PhotoDelete(DeleteView):
 class PhotoDetail(DetailView):
     model = Photo
     template_name_suffix = '_detail'
+
+from django.views.generic.base import View
+from django.http import HttpResponseForbidden
+
+class PhotoLike(View):
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
