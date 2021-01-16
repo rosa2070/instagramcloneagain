@@ -19,7 +19,7 @@
                     <p class="card-text"> {{ object.text }} </p>
                 </div>
                 <ul class="list-group list-group-flush">
-
+                    {% if user.is_authenticated %}
                     <li class="list-group-item">
                         <a href="{% url 'photo:like' object.id %}" class="float-left btn-like {%if user in object.like.all %} active {%endif%}">좋아요!</a>
                         {% if object.like.all.count %}
@@ -29,6 +29,7 @@
                         {% endif %}
                         <a href="{% url 'photo:favorite' object.id %}" class="float-right btn-favorite {%if user in object.favorite.all %}active{%endif%}">저장하기!</a>
                     </li>
+                    {% endif %}
                     <li class="list-group-item">생성일 : {{ object.created }}</li>
                 </ul>
                 <div class="card-body">
