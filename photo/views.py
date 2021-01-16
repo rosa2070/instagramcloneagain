@@ -60,8 +60,22 @@ class PhotoDetail(DetailView):
 
 from django.views.generic.base import View
 from django.http import HttpResponseForbidden
+from urllib.parse import urlparse
 
 class PhotoLike(View):
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
+        else:
+            if 'photo_id' in kwargs:
+                photo_id = kwargs['photo_id']
+                photo = Photo.objects.get(pk=photo_id)
+                user = request.user
+                if user in photo.like.all():
+                    photo.like.remove(user)
+                else:
+                    photo.like.add(user)
+
+            referer_url = request.META.get('HTTP_REFERER')
+            path = urlparse(referer_url).path
+            return HttpResponseRedirect(path)
